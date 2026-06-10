@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Haiku Daily</title>
+  <meta name="description" content="A new haiku to sit with each day. Reroll for another." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="stage">
+    <p class="eyebrow" id="dateLabel"></p>
+
+    <blockquote class="haiku" id="haiku" aria-live="polite">
+      <span class="line">An old silent pond</span>
+      <span class="line">a frog jumps into the pond—</span>
+      <span class="line">splash! silence again</span>
+    </blockquote>
+
+    <p class="season" id="season"></p>
+
+    <div class="controls">
+      <button id="rerollBtn" class="reroll" type="button">
+        <span class="reroll-icon" aria-hidden="true">⟳</span>
+        Reroll
+      </button>
+    </div>
+
+    <footer class="foot">
+      <span id="poolCount"></span>
+    </footer>
+  </main>
+
+  <script src="haikus.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

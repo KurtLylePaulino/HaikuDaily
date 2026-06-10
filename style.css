@@ -1,0 +1,123 @@
+:root {
+  --bg: #0f1115;
+  --bg-soft: #161922;
+  --ink: #e8e6e1;
+  --ink-soft: #9aa0ab;
+  --accent: #c9a86a;
+  --accent-soft: #6b5d3e;
+  --radius: 16px;
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  background:
+    radial-gradient(1200px 600px at 50% -10%, #1c2030 0%, var(--bg) 60%);
+  color: var(--ink);
+  font-family: var(--sans);
+  display: grid;
+  place-items: center;
+  padding: 2rem 1.25rem;
+  -webkit-font-smoothing: antialiased;
+}
+
+.stage {
+  width: 100%;
+  max-width: 620px;
+  text-align: center;
+  background: linear-gradient(180deg, var(--bg-soft), #11141b);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius);
+  padding: clamp(2rem, 6vw, 3.5rem);
+  box-shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.8);
+}
+
+.eyebrow {
+  margin: 0 0 1.75rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.haiku {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-family: var(--serif);
+  font-size: clamp(1.4rem, 4.5vw, 2rem);
+  line-height: 1.7;
+  font-style: italic;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15em;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.haiku.is-swapping {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.haiku .line { display: block; }
+
+.season {
+  margin: 1.5rem 0 0;
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  min-height: 1em;
+}
+
+.controls {
+  margin-top: 2.25rem;
+}
+
+.reroll {
+  font-family: var(--sans);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--bg);
+  background: var(--accent);
+  border: 0;
+  border-radius: 999px;
+  padding: 0.85rem 1.8rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  transition: transform 0.12s ease, box-shadow 0.2s ease, background 0.2s ease;
+  box-shadow: 0 10px 25px -10px rgba(201, 168, 106, 0.6);
+}
+
+.reroll:hover { background: #d8b977; transform: translateY(-1px); }
+.reroll:active { transform: translateY(1px) scale(0.98); }
+.reroll:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+.reroll-icon {
+  font-size: 1.15rem;
+  display: inline-block;
+  transition: transform 0.5s ease;
+}
+.reroll.spin .reroll-icon { transform: rotate(360deg); }
+
+.foot {
+  margin-top: 2rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--ink-soft);
+  opacity: 0.7;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .haiku, .reroll, .reroll-icon { transition: none; }
+}
