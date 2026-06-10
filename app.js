@@ -1,8 +1,10 @@
 // Haiku Daily — daily pick, reroll, copy, sakura petals, generative koto.
 
 const haikuEl   = document.getElementById("haiku");
-const seasonEl  = document.getElementById("season");
-const kanjiEl   = document.getElementById("seasonKanji");
+const jpEl      = document.getElementById("jp");
+const bylineEl  = document.getElementById("byline");
+const themeEl   = document.getElementById("themeLabel");
+const kanjiEl   = document.getElementById("themeKanji");
 const dateLabel = document.getElementById("dateLabel");
 const poolCount = document.getElementById("poolCount");
 const rerollBtn = document.getElementById("rerollBtn");
@@ -10,14 +12,6 @@ const copyBtn   = document.getElementById("copyBtn");
 const soundBtn  = document.getElementById("soundBtn");
 const petalsEl  = document.getElementById("petals");
 const toastEl   = document.getElementById("toast");
-
-const SEASON = {
-  spring: { kanji: "春", en: "Spring" },
-  summer: { kanji: "夏", en: "Summer" },
-  autumn: { kanji: "秋", en: "Autumn" },
-  winter: { kanji: "冬", en: "Winter" },
-  any:    { kanji: "道", en: "" }, // 道 = "the way" — for the timeless ones
-};
 
 // ---------- date + daily pick -------------------------------------------
 
@@ -39,15 +33,20 @@ function formatDate(date) {
 let currentIndex = indexForToday();
 
 function render(haiku) {
-  const meta = SEASON[haiku.season] || SEASON.any;
   haikuEl.classList.add("is-swapping");
+  if (jpEl) jpEl.classList.add("is-swapping");
   window.setTimeout(() => {
     haikuEl.innerHTML = haiku.lines
       .map((line) => `<span class="line">${line}</span>`)
       .join("");
-    seasonEl.textContent = meta.en;
-    kanjiEl.textContent = meta.kanji;
+    if (jpEl) jpEl.textContent = haiku.jp || "";
+    bylineEl.textContent = haiku.dates
+      ? `— ${haiku.author} · ${haiku.dates}`
+      : `— ${haiku.author}`;
+    themeEl.textContent = haiku.theme || "";
+    kanjiEl.textContent = haiku.kanji || "";
     haikuEl.classList.remove("is-swapping");
+    if (jpEl) jpEl.classList.remove("is-swapping");
   }, 220);
 }
 
@@ -67,7 +66,10 @@ function reroll() {
 // ---------- copy ---------------------------------------------------------
 
 function currentText() {
-  return HAIKUS[currentIndex].lines.join("\n");
+  const h = HAIKUS[currentIndex];
+  const credit = h.dates ? `— ${h.author} (${h.dates})` : `— ${h.author}`;
+  const jp = h.jp ? `\n${h.jp}` : "";
+  return `${h.lines.join("\n")}${jp}\n\n${credit}`;
 }
 async function copyHaiku() {
   const text = currentText();
@@ -194,7 +196,7 @@ function toggleSound() {
 // ---------- init ---------------------------------------------------------
 
 dateLabel.textContent = formatDate(new Date());
-poolCount.textContent = `${HAIKUS.length} haiku in the well`;
+poolCount.textContent = `${HAIKUS.length} haiku · the classical masters`;
 render(HAIKUS[currentIndex]);
 makePetals(20);
 
