@@ -61,6 +61,44 @@ const HAIKUS = [
   { jp: "落花枝に帰ると見れば胡蝶かな", lines: ["A fallen blossom", "returning to its branch, I thought—", "but no, a butterfly"], author: "Arakida Moritake", dates: "1473–1549", kanji: "幻", theme: "illusion and seeing" },
 
   { jp: "名月や畳の上に松の影", lines: ["The harvest moon—", "and on the tatami mats,", "a pine tree's shadow"], author: "Takarai Kikaku", dates: "1661–1707", kanji: "影", theme: "presence and its shadow" },
+
+  { jp: "蛤のふたみにわかれ行く秋ぞ", lines: ["Like a clam", "wrenched from its shell, I go—", "autumn departing"], author: "Matsuo Bashō", dates: "1644–1694", kanji: "別", theme: "parting" },
+  { jp: "旅人と我が名呼ばれん初しぐれ", lines: ["Let them call me", "a wanderer—", "first winter rain"], author: "Matsuo Bashō", dates: "1644–1694", kanji: "旅", theme: "the traveler's name" },
+  { jp: "野ざらしを心に風のしむ身哉", lines: ["Bleached bones", "in my mind's eye—the wind", "cuts through my flesh"], author: "Matsuo Bashō", dates: "1644–1694", kanji: "風", theme: "mortality on the road" },
+  { jp: "名月や池をめぐりて夜もすがら", lines: ["The harvest moon—", "round and round the pond I walked", "the whole night through"], author: "Matsuo Bashō", dates: "1644–1694", kanji: "月", theme: "absorption in beauty" },
+  { jp: "山路来て何やらゆかしすみれ草", lines: ["Coming up the mountain path,", "somehow so moving—", "a wild violet"], author: "Matsuo Bashō", dates: "1644–1694", kanji: "花", theme: "small things that touch us" },
+  { jp: "花の雲鐘は上野か浅草か", lines: ["Clouds of blossom—", "is that bell from Ueno,", "or from Asakusa?"], author: "Matsuo Bashō", dates: "1644–1694", kanji: "響", theme: "reverie" },
+  { jp: "草の戸も住み替る代ぞ雛の家", lines: ["Even a grass-thatched hut,", "in its turn, changes hands—", "a house of dolls now"], author: "Matsuo Bashō", dates: "1644–1694", kanji: "移", theme: "all things pass to others" },
+  { jp: "五月雨をあつめて早し最上川", lines: ["Gathering the summer rains,", "swift and swollen—", "the Mogami River"], author: "Matsuo Bashō", dates: "1644–1694", kanji: "流", theme: "the gathering of all things" },
+  { jp: "あらたふと青葉若葉の日の光", lines: ["How sacred—", "green leaves, young leaves,", "and the light of the sun"], author: "Matsuo Bashō", dates: "1644–1694", kanji: "光", theme: "reverence" },
+  { jp: "道のべの木槿は馬に喰はれけり", lines: ["The rose of Sharon", "at the roadside—", "eaten by my horse"], author: "Matsuo Bashō", dates: "1644–1694", kanji: "儚", theme: "beauty undone by chance" },
+  { jp: "行く春や鳥啼き魚の目は泪", lines: ["Spring is leaving—", "the birds cry out, and the eyes", "of the fish are wet"], author: "Matsuo Bashō", dates: "1644–1694", kanji: "涙", theme: "all things grieve to part" },
+  { jp: "父母のしきりに恋し雉子の声", lines: ["How I ache", "for my mother and father—", "a pheasant's cry"], author: "Matsuo Bashō", dates: "1644–1694", kanji: "親", theme: "longing for the lost" },
+
+  { jp: "名月を取つてくれろと泣く子哉", lines: ["'Fetch me down", "that harvest moon!'—", "the child wailing"], author: "Kobayashi Issa", dates: "1763–1828", kanji: "望", theme: "innocent longing" },
+  { jp: "雀の子そこのけそこのけお馬が通る", lines: ["Little sparrow,", "out of the way, out of the way!—", "the horse is coming"], author: "Kobayashi Issa", dates: "1763–1828", kanji: "児", theme: "tenderness for the helpless" },
+  { jp: "痩蛙まけるな一茶是に有", lines: ["Scrawny frog,", "don't you lose—", "Issa is here!"], author: "Kobayashi Issa", dates: "1763–1828", kanji: "励", theme: "solidarity with the weak" },
+  { jp: "是がまあつひの栖か雪五尺", lines: ["So this, at last,", "is my final home?—", "five feet of snow"], author: "Kobayashi Issa", dates: "1763–1828", kanji: "終", theme: "resignation" },
+  { jp: "春風や牛に引かれて善光寺", lines: ["Spring breeze—", "led along by a cow", "to Zenkō Temple"], author: "Kobayashi Issa", dates: "1763–1828", kanji: "縁", theme: "grace in being led" },
+  { jp: "秋の夜や旅の男の針仕事", lines: ["Autumn night—", "a man far from home,", "mending his clothes"], author: "Kobayashi Issa", dates: "1763–1828", kanji: "独", theme: "self-reliant solitude" },
+
+  { jp: "菜の花や月は東に日は西に", lines: ["A field of mustard flowers—", "the moon in the east,", "the sun in the west"], author: "Yosa Buson", dates: "1716–1784", kanji: "宙", theme: "the turning cosmos" },
+  { jp: "ゆく春や重たき琵琶の抱心", lines: ["Spring departing—", "how heavy the lute", "feels in my arms"], author: "Yosa Buson", dates: "1716–1784", kanji: "哀", theme: "the weight of beauty passing" },
+  { jp: "五月雨や大河を前に家二軒", lines: ["The summer rains—", "and facing the swollen river,", "two small houses"], author: "Yosa Buson", dates: "1716–1784", kanji: "雨", theme: "fragility before nature" },
+  { jp: "寒月や枯木の中の竹三竿", lines: ["The cold moon—", "among the bare trees,", "three stalks of bamboo"], author: "Yosa Buson", dates: "1716–1784", kanji: "寒", theme: "austere clarity" },
+  { jp: "牡丹散て打かさなりぬ二三片", lines: ["The peony scattered,", "and they lie heaped together—", "two petals, three"], author: "Yosa Buson", dates: "1716–1784", kanji: "落", theme: "beauty in its falling" },
+  { jp: "凧きのふの空の有りどころ", lines: ["The kite—", "in the very place in the sky", "it held yesterday"], author: "Yosa Buson", dates: "1716–1784", kanji: "空", theme: "constancy amid change" },
+  { jp: "山は暮れて野は黄昏の薄哉", lines: ["The mountains have darkened,", "and in the dusk of the fields,", "pampas grass"], author: "Yosa Buson", dates: "1716–1784", kanji: "暮", theme: "the layered fall of evening" },
+
+  { jp: "鶏頭の十四五本もありぬべし", lines: ["Cockscombs—", "there must be", "fourteen, or fifteen"], author: "Masaoka Shiki", dates: "1867–1902", kanji: "有", theme: "the plain fact of being" },
+  { jp: "いくたびも雪の深さを尋ねけり", lines: ["How many times", "I asked them", "how deep the snow had grown"], author: "Masaoka Shiki", dates: "1867–1902", kanji: "問", theme: "the longing of the confined" },
+  { jp: "春や昔十五万石の城下哉", lines: ["Spring as it was long ago—", "a castle town", "of a hundred-fifty thousand koku"], author: "Masaoka Shiki", dates: "1867–1902", kanji: "昔", theme: "the glory that fades" },
+  { jp: "赤蜻蛉筑波に雲もなかりけり", lines: ["Red dragonflies—", "and over Mount Tsukuba", "not a single cloud"], author: "Masaoka Shiki", dates: "1867–1902", kanji: "澄", theme: "perfect clarity" },
+
+  { jp: "裏を見せ表を見せて散る紅葉", lines: ["Showing its back,", "then showing its face,", "a maple leaf falls"], author: "Ryōkan", dates: "1758–1831", kanji: "真", theme: "dying without concealment" },
+  { jp: "焚くほどは風がもてくる落葉かな", lines: ["Just enough", "to feed the fire—", "leaves the wind brings"], author: "Ryōkan", dates: "1758–1831", kanji: "足", theme: "trusting in enough" },
+
+  { jp: "行水の捨てどころなき虫の声", lines: ["Nowhere", "to pour out the bath water—", "insects singing all around"], author: "Uejima Onitsura", dates: "1661–1738", kanji: "慈", theme: "reverence for all life" },
 ];
 
 if (typeof module !== "undefined" && module.exports) {
