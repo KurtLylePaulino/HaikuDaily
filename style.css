@@ -109,9 +109,20 @@ body {
 .range-mid  { height: 60vh; z-index: 2; }
 .range-near { height: 34vh; z-index: 3; }
 .range-far  path { fill: #243156; opacity: 0.65; }
+.range-mid  path { fill: #182040; }
 .range-near path { fill: #0c1226; }
-.fuji-body { fill: url(#fujiGrad); }
-.fuji-snow { fill: #e6ecf8; opacity: 0.92; }
+
+/* sakura-branch corner ornaments */
+.defs { position: absolute; width: 0; height: 0; }
+.branch {
+  position: absolute; top: -8px; z-index: 3; pointer-events: none;
+  width: clamp(140px, 21vw, 246px); height: auto; opacity: 0.9;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.3));
+}
+.branch-tl { left: -12px; }
+.branch-tr { right: -12px; transform: scaleX(-1); }
+.branch .twigs path { fill: none; stroke: #10162a; stroke-width: 4.5; stroke-linecap: round; }
+.branch use { opacity: 0.9; }
 
 /* horizon mist */
 .mist {
@@ -321,6 +332,22 @@ body.card-in .scroll, .reduce-motion .scroll { opacity: 1; transform: none; }
 .btn-ghost { color: var(--sumi); background: rgba(255,252,244,0.6); }
 .btn-ghost:hover { background: #fff; border-color: var(--gold); }
 .btn-ghost[aria-pressed="true"] { color: #fff7ef; background: var(--sumi); border-color: var(--sumi); }
+
+/* on/off toggle chips (music, sound) — state shown by fill + a status light */
+.btn-toggle { color: var(--sumi); background: rgba(255,252,244,0.6); }
+.btn-toggle:hover { background: #fff; border-color: var(--gold); }
+.btn-toggle::after {
+  content: ""; width: 7px; height: 7px; border-radius: 50%; margin-left: 0.1rem;
+  background: currentColor; opacity: 0.3;
+  transition: opacity 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+.btn-toggle[aria-pressed="true"] {
+  color: #fff7ef; background: linear-gradient(180deg, var(--shu), var(--shu-deep)); border-color: var(--shu-deep);
+  box-shadow: 0 10px 22px -12px rgba(151,41,31,0.7);
+}
+.btn-toggle[aria-pressed="true"]::after {
+  background: #ffe6a6; opacity: 1; box-shadow: 0 0 7px 1px rgba(255,228,150,0.9);
+}
 
 /* music volume slider */
 .vol {

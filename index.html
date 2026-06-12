@@ -27,24 +27,50 @@
     <svg class="range range-far" viewBox="0 0 1440 320" preserveAspectRatio="xMidYMax slice">
       <path d="M0,320 L0,232 C150,200 300,196 470,214 C640,232 740,262 900,248 C1060,234 1210,196 1440,224 L1440,320 Z"/>
     </svg>
-    <svg class="range range-mid" viewBox="0 0 1440 420" preserveAspectRatio="xMidYMax slice">
-      <defs>
-        <linearGradient id="fujiGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#33406a"/>
-          <stop offset="0.5" stop-color="#202a4d"/>
-          <stop offset="1" stop-color="#121833"/>
-        </linearGradient>
-      </defs>
-      <!-- Mt Fuji: wide concave slopes, flattened crater rim -->
-      <path class="fuji-body" d="M0,420 L0,372 L360,372 C470,372 520,320 640,176 C690,116 706,70 720,66 C734,70 750,116 800,176 C920,320 970,372 1080,372 L1440,372 L1440,420 Z"/>
-      <!-- snow cap with the classic jagged lower edge -->
-      <path class="fuji-snow" d="M654,182 C690,150 704,112 720,66 C736,112 750,150 786,182 L775,190 L763,180 L751,192 L739,181 L727,193 L716,181 L704,192 L692,180 L680,191 L667,180 Z"/>
+    <svg class="range range-mid" viewBox="0 0 1440 360" preserveAspectRatio="xMidYMax slice">
+      <!-- generic rolling mountain range -->
+      <path d="M0,360 L0,252 C120,214 210,166 320,156 C432,146 470,212 560,222 C662,233 720,156 840,146 C962,136 1010,206 1130,214 C1252,222 1330,174 1440,154 L1440,360 Z"/>
     </svg>
     <svg class="range range-near" viewBox="0 0 1440 240" preserveAspectRatio="xMidYMax slice">
       <path d="M0,240 L0,150 C120,120 220,160 360,150 C520,138 600,90 760,120 C900,146 1010,180 1180,150 C1300,128 1380,150 1440,140 L1440,240 Z"/>
     </svg>
 
     <div class="mist"></div>
+
+    <!-- sakura-branch corner ornaments -->
+    <svg class="defs" width="0" height="0" aria-hidden="true">
+      <defs>
+        <g id="sakuraBlossom" fill="#e7b2c6">
+          <circle cx="0" cy="-6.5" r="4.3"/><circle cx="6.2" cy="-2" r="4.3"/>
+          <circle cx="3.8" cy="5.3" r="4.3"/><circle cx="-3.8" cy="5.3" r="4.3"/>
+          <circle cx="-6.2" cy="-2" r="4.3"/><circle cx="0" cy="0" r="2.1" fill="#cc9f57"/>
+        </g>
+      </defs>
+    </svg>
+    <svg class="branch branch-tl" viewBox="0 0 300 200" aria-hidden="true">
+      <g class="twigs">
+        <path d="M-8,-12 C70,24 112,58 152,76 C178,88 206,94 240,96"/>
+        <path d="M82,36 C96,54 104,72 108,98"/>
+        <path d="M152,76 C176,74 192,62 212,50"/>
+      </g>
+      <use href="#sakuraBlossom" transform="translate(240,96) scale(1.15)"/>
+      <use href="#sakuraBlossom" transform="translate(108,99) scale(1)"/>
+      <use href="#sakuraBlossom" transform="translate(212,49) scale(0.95)"/>
+      <use href="#sakuraBlossom" transform="translate(168,82) scale(0.85)"/>
+      <use href="#sakuraBlossom" transform="translate(64,20) scale(0.8)"/>
+    </svg>
+    <svg class="branch branch-tr" viewBox="0 0 300 200" aria-hidden="true">
+      <g class="twigs">
+        <path d="M-8,-12 C70,24 112,58 152,76 C178,88 206,94 240,96"/>
+        <path d="M82,36 C96,54 104,72 108,98"/>
+        <path d="M152,76 C176,74 192,62 212,50"/>
+      </g>
+      <use href="#sakuraBlossom" transform="translate(240,96) scale(1.15)"/>
+      <use href="#sakuraBlossom" transform="translate(108,99) scale(1)"/>
+      <use href="#sakuraBlossom" transform="translate(212,49) scale(0.95)"/>
+      <use href="#sakuraBlossom" transform="translate(168,82) scale(0.85)"/>
+      <use href="#sakuraBlossom" transform="translate(64,20) scale(0.8)"/>
+    </svg>
 
     <!-- particle canvas: floating sky-lanterns, fireflies + sakura petals -->
     <canvas class="particles" id="particles"></canvas>
@@ -90,8 +116,8 @@
       <button id="copyBtn" class="btn btn-ghost" type="button">
         <span class="ico" aria-hidden="true">⧉</span><span class="lbl">Copy</span>
       </button>
-      <button id="musicBtn" class="btn btn-ghost" type="button" aria-pressed="false" title="Background music">
-        <span class="ico" aria-hidden="true">♪</span><span class="lbl">Music off</span>
+      <button id="musicBtn" class="btn btn-toggle" type="button" aria-pressed="false" title="Background music">
+        <span class="ico" aria-hidden="true">♪</span><span class="lbl">Music</span>
       </button>
       <label class="vol" id="volWrap" title="Music volume">
         <span class="ico" aria-hidden="true">🔊</span>
@@ -99,8 +125,8 @@
                aria-label="Music volume" />
         <span class="vol-val" id="volVal">40%</span>
       </label>
-      <button id="sfxBtn" class="btn btn-ghost" type="button" aria-pressed="true" title="UI sound effects">
-        <span class="ico" aria-hidden="true">🔔</span><span class="lbl">Sound on</span>
+      <button id="sfxBtn" class="btn btn-toggle" type="button" aria-pressed="true" title="UI sound effects">
+        <span class="ico" aria-hidden="true">🔔</span><span class="lbl">Sound</span>
       </button>
     </div>
 

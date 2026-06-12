@@ -257,7 +257,7 @@ async function setMusic(on) {
   musicOn = on;
   musicWanted = on; localStorage.setItem("haiku-music", on ? "on" : "off");
   musicBtn.setAttribute("aria-pressed", String(on));
-  musicBtn.querySelector(".lbl").textContent = on ? "Music on" : "Music off";
+  musicBtn.title = on ? "Background music: on" : "Background music: off";
   const now = actx.currentTime;
   musicGain.gain.cancelScheduledValues(now);
   if (on) {
@@ -276,7 +276,7 @@ function setSfx(on) {
   sfxEnabled = on;
   localStorage.setItem("haiku-sfx", on ? "on" : "off");
   sfxBtn.setAttribute("aria-pressed", String(on));
-  sfxBtn.querySelector(".lbl").textContent = on ? "Sound on" : "Sound off";
+  sfxBtn.title = on ? "UI sound effects: on" : "UI sound effects: off";
   sfxBtn.querySelector(".ico").textContent = on ? "🔔" : "🔕";
   if (actx && sfxGain) sfxGain.gain.setTargetAtTime(on ? 0.35 : 0, actx.currentTime, 0.1);
   if (on) sfxClack();
@@ -372,7 +372,7 @@ function spawnLantern(seed) {
   return {
     x: Math.random() * pW,
     y: seed ? Math.random() * pH : pH + 40,
-    vy: 0.15 + Math.random() * 0.35, size: 13 + Math.random() * 12,
+    vy: 0.15 + Math.random() * 0.35, size: 16 + Math.random() * 14,
     swayA: 8 + Math.random() * 16, swayP: Math.random() * 6.28, swayS: 0.005 + Math.random() * 0.01,
     flick: Math.random() * 6.28, flickS: 0.03 + Math.random() * 0.04,
     alpha: 0.7 + Math.random() * 0.3,
@@ -390,7 +390,7 @@ function initParticles() {
   if (!canvas || REDUCED) return;
   resizeCanvas();
   const small = pW < 640;
-  const nPetals = small ? 12 : 18, nFlies = small ? 8 : 13, nLanterns = small ? 4 : 6;
+  const nPetals = small ? 12 : 18, nFlies = small ? 8 : 13, nLanterns = small ? 6 : 10;
   petals = Array.from({ length: nPetals }, () => spawnPetal(true));
   flies = Array.from({ length: nFlies }, () => ({
     x: Math.random() * pW, y: pH * (0.55 + Math.random() * 0.4),
@@ -451,11 +451,12 @@ function tick(ts) {
     if (l.y < -l.size * 3) Object.assign(l, spawnLantern(false));
     const lx = l.x + Math.sin(l.swayP) * l.swayA;
     const glow = 0.4 + 0.5 * (0.5 + 0.5 * Math.sin(l.flick));
-    const g = pCtx.createRadialGradient(lx, l.y, 0, lx, l.y, l.size * 3.2);
-    g.addColorStop(0, `rgba(255,178,90,${0.5 * glow * l.alpha})`);
+    const g = pCtx.createRadialGradient(lx, l.y, 0, lx, l.y, l.size * 3.4);
+    g.addColorStop(0, `rgba(255,182,96,${0.62 * glow * l.alpha})`);
+    g.addColorStop(0.5, `rgba(255,150,70,${0.22 * glow * l.alpha})`);
     g.addColorStop(1, "rgba(255,150,60,0)");
     pCtx.fillStyle = g;
-    pCtx.beginPath(); pCtx.arc(lx, l.y, l.size * 3.2, 0, 6.2832); pCtx.fill();
+    pCtx.beginPath(); pCtx.arc(lx, l.y, l.size * 3.4, 0, 6.2832); pCtx.fill();
   }
   pCtx.globalCompositeOperation = "source-over";
 
@@ -527,7 +528,6 @@ poolCount.textContent = `${HAIKUS.length} haiku · the classical masters`;
 
 // reflect persisted preferences on the buttons
 sfxBtn.setAttribute("aria-pressed", String(sfxEnabled));
-sfxBtn.querySelector(".lbl").textContent = sfxEnabled ? "Sound on" : "Sound off";
 sfxBtn.querySelector(".ico").textContent = sfxEnabled ? "🔔" : "🔕";
 if (volSlider) volSlider.value = String(Math.round(musicVolume * 100));
 setVolume(musicVolume, false);
