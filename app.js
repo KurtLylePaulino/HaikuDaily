@@ -14,11 +14,12 @@ const haikuEl = $("haiku"), jpEl = $("jp"), bylineEl = $("byline"),
       rerollBtn = $("rerollBtn"), copyBtn = $("copyBtn"),
       musicBtn = $("musicBtn"), sfxBtn = $("sfxBtn"),
       brandJp = $("brandJp"), seal = $("seal"), inkSweep = $("inkSweep"),
-      ripples = $("ripples"), toastEl = $("toast"), canvas = $("particles");
+      ripples = $("ripples"), toastEl = $("toast"), canvas = $("particles"),
+      volSlider = $("volSlider"), volVal = $("volVal");
 
 const REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-const MUSIC_FILE = "music.mp3"; // drop one in the repo root and it's used automatically
+const MUSIC_FILE = "Moonlit Koto Garden.mp3"; // original track in the repo root
 
 /* ======================= date + daily pick ======================= */
 
@@ -39,6 +40,10 @@ let musicOn = false, musicReady = false, musicMode = null; // 'file' | 'synth'
 let musicEl = null, droneNodes = null, kotoTimer = null, shakuTimer = null;
 let sfxEnabled = REDUCED ? false : (localStorage.getItem("haiku-sfx") !== "off");
 let musicWanted = localStorage.getItem("haiku-music") === "on";
+
+const clamp01 = (x) => (isNaN(x) ? 0.4 : Math.max(0, Math.min(1, x)));
+const _storedVol = localStorage.getItem("haiku-vol");
+let musicVolume = _storedVol === null ? 0.4 : clamp01(parseFloat(_storedVol)); // start at 40%
 
 const SCALE = [220.0, 246.94, 293.66, 329.63, 369.99, 440.0, 493.88, 587.33, 659.25]; // hirajoshi-ish
 const pick = (a) => a[(Math.random() * a.length) | 0];
@@ -159,18 +164,20 @@ function sfxDrop() { // soft water plip for click ripple
 
 /* ---- music: looping mp3 if present, else synth ambience ---- */
 
-const musicTargetGain = () => (musicMode === "file" ? 0.6 : 0.2);
+const musicTargetGain = () => musicVolume * (musicMode === "file" ? 1.0 : 0.5);
 
 async function prepareMusic() {
   if (musicReady) return;
+  const url = encodeURI(MUSIC_FILE); // handles the spaces in the filename
   let hasFile = false;
   try {
-    const r = await fetch(MUSIC_FILE, { method: "HEAD" });
-    hasFile = r.ok && (r.headers.get("content-type") || "").indexOf("audio") !== -1;
+    const r = await fetch(url, { method: "HEAD" });
+    const ct = (r.headers.get("content-type") || "").toLowerCase();
+    hasFile = r.ok && ct.indexOf("html") === -1; // any non-HTML 200 = a real asset
   } catch (e) { hasFile = false; }
 
   if (hasFile) {
-    musicEl = new Audio(MUSIC_FILE); musicEl.loop = true; musicEl.crossOrigin = "anonymous";
+    musicEl = new Audio(url); musicEl.loop = true; musicEl.preload = "auto"; musicEl.crossOrigin = "anonymous";
     try {
       const src = actx.createMediaElementSource(musicEl);
       src.connect(musicGain); musicMode = "file";
@@ -275,6 +282,15 @@ function setSfx(on) {
   if (on) sfxClack();
 }
 
+function setVolume(v, persist) {
+  musicVolume = clamp01(v);
+  const pct = Math.round(musicVolume * 100) + "%";
+  if (volSlider) volSlider.style.setProperty("--vol", pct);
+  if (volVal) volVal.textContent = pct;
+  if (persist) localStorage.setItem("haiku-vol", String(musicVolume));
+  if (actx && musicGain && musicOn) musicGain.gain.setTargetAtTime(musicTargetGain(), actx.currentTime, 0.12);
+}
+
 /* ======================= render (brush-write) ======================= */
 
 function currentText() {
@@ -345,7 +361,23 @@ function toast(msg) {
 
 /* ======================= background particles ======================= */
 
-let pCtx, pW = 0, pH = 0, dpr = 1, petals = [], flies = [], rafId = null;
+let pCtx, pW = 0, pH = 0, dpr = 1, petals = [], flies = [], lanterns = [], rafId = null;
+
+function roundRect(c, x, y, w, h, r) {
+  c.beginPath(); c.moveTo(x + r, y);
+  c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r);
+  c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath();
+}
+function spawnLantern(seed) {
+  return {
+    x: Math.random() * pW,
+    y: seed ? Math.random() * pH : pH + 40,
+    vy: 0.15 + Math.random() * 0.35, size: 13 + Math.random() * 12,
+    swayA: 8 + Math.random() * 16, swayP: Math.random() * 6.28, swayS: 0.005 + Math.random() * 0.01,
+    flick: Math.random() * 6.28, flickS: 0.03 + Math.random() * 0.04,
+    alpha: 0.7 + Math.random() * 0.3,
+  };
+}
 
 function resizeCanvas() {
   if (!canvas) return;
@@ -358,7 +390,7 @@ function initParticles() {
   if (!canvas || REDUCED) return;
   resizeCanvas();
   const small = pW < 640;
-  const nPetals = small ? 12 : 18, nFlies = small ? 8 : 13;
+  const nPetals = small ? 12 : 18, nFlies = small ? 8 : 13, nLanterns = small ? 4 : 6;
   petals = Array.from({ length: nPetals }, () => spawnPetal(true));
   flies = Array.from({ length: nFlies }, () => ({
     x: Math.random() * pW, y: pH * (0.55 + Math.random() * 0.4),
@@ -366,6 +398,7 @@ function initParticles() {
     drift: 0.2 + Math.random() * 0.5, r: 1.4 + Math.random() * 1.6,
     ox: Math.random() * 6.28, oy: Math.random() * 6.28,
   }));
+  lanterns = Array.from({ length: nLanterns }, () => spawnLantern(true));
   if (!rafId) rafId = requestAnimationFrame(tick);
 }
 function spawnPetal(seed) {
@@ -400,7 +433,7 @@ function tick(ts) {
   last = ts;
   pCtx.clearRect(0, 0, pW, pH);
 
-  // fireflies (additive glow)
+  // additive glow pass: fireflies + lantern halos
   pCtx.globalCompositeOperation = "lighter";
   for (const f of flies) {
     f.phase += 0.03 * f.speed;
@@ -413,7 +446,33 @@ function tick(ts) {
     pCtx.fillStyle = g;
     pCtx.beginPath(); pCtx.arc(fx, fy, f.r * 6, 0, 6.2832); pCtx.fill();
   }
+  for (const l of lanterns) {
+    l.y -= l.vy; l.swayP += l.swayS; l.flick += l.flickS;
+    if (l.y < -l.size * 3) Object.assign(l, spawnLantern(false));
+    const lx = l.x + Math.sin(l.swayP) * l.swayA;
+    const glow = 0.4 + 0.5 * (0.5 + 0.5 * Math.sin(l.flick));
+    const g = pCtx.createRadialGradient(lx, l.y, 0, lx, l.y, l.size * 3.2);
+    g.addColorStop(0, `rgba(255,178,90,${0.5 * glow * l.alpha})`);
+    g.addColorStop(1, "rgba(255,150,60,0)");
+    pCtx.fillStyle = g;
+    pCtx.beginPath(); pCtx.arc(lx, l.y, l.size * 3.2, 0, 6.2832); pCtx.fill();
+  }
   pCtx.globalCompositeOperation = "source-over";
+
+  // lantern bodies
+  for (const l of lanterns) {
+    const lx = l.x + Math.sin(l.swayP) * l.swayA, s = l.size, w = s, h = s * 1.25;
+    pCtx.save();
+    pCtx.translate(lx, l.y); pCtx.globalAlpha = l.alpha;
+    const grad = pCtx.createLinearGradient(0, -h / 2, 0, h / 2);
+    grad.addColorStop(0, "#ffd680"); grad.addColorStop(0.5, "#f08a3c"); grad.addColorStop(1, "#d2502a");
+    pCtx.fillStyle = grad; roundRect(pCtx, -w / 2, -h / 2, w, h, w * 0.42); pCtx.fill();
+    pCtx.fillStyle = "#241c14";
+    pCtx.fillRect(-w * 0.26, -h / 2 - 2, w * 0.52, 2.5);
+    pCtx.fillRect(-w * 0.2, h / 2 - 0.5, w * 0.4, 2.5);
+    pCtx.restore();
+  }
+  pCtx.globalAlpha = 1;
 
   // petals
   for (const p of petals) {
@@ -470,6 +529,8 @@ poolCount.textContent = `${HAIKUS.length} haiku · the classical masters`;
 sfxBtn.setAttribute("aria-pressed", String(sfxEnabled));
 sfxBtn.querySelector(".lbl").textContent = sfxEnabled ? "Sound on" : "Sound off";
 sfxBtn.querySelector(".ico").textContent = sfxEnabled ? "🔔" : "🔕";
+if (volSlider) volSlider.value = String(Math.round(musicVolume * 100));
+setVolume(musicVolume, false);
 
 runIntro();
 initParticles();
@@ -482,6 +543,7 @@ rerollBtn.addEventListener("click", (e) => { unlockAudio(); ripple(e.clientX, e.
 copyBtn.addEventListener("click", () => { unlockAudio(); copyHaiku(); });
 musicBtn.addEventListener("click", () => { unlockAudio(); setMusic(!musicOn); });
 sfxBtn.addEventListener("click", () => { unlockAudio(); setSfx(!sfxEnabled); });
+if (volSlider) volSlider.addEventListener("input", () => setVolume(volSlider.value / 100, true));
 
 // ripple bloom anywhere on the card
 $("scroll").addEventListener("pointerdown", (e) => {
